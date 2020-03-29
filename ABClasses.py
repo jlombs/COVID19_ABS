@@ -12,7 +12,8 @@ def age_distribution(mean):
 
     if mean <= 0:
 
-        # https://www.populationpyramid.net/world/2020/, uses the male distribution
+        # https://www.populationpyramid.net/world/2020/, uses the male distribution (both sexes are very similar and
+        # the simulation doesn't include sex variation at this time)
         worldPopulationStats = [349432556, 342927576, 331497486, 316642222, 308286775, 306059387, 309236984, 276447037,
                                 249389688, 241232876, 222609691, 192215395, 157180267, 128939392, 87185982, 54754941,
                                 33648953, 15756942, 5327866, 1077791, 124144]
@@ -37,7 +38,7 @@ def age_distribution(mean):
 # ageBias is the mean input to the age_distribution function
 # cleanlinessBias [0,1] gives how effective the agent is at cleaning their environment of the virus
 # socialDistanceBias [0,1] gives how effective the agent is at making good social distancing choices when they move
-# travelerBias [0, 10] gives how energic the agent is when they travel about. 1 will give appropriately scaled motion,
+# travelerBias [0, 10] gives how energetic the agent is when they travel about. 1 will give appropriately scaled motion,
 #     >1 indicates 'extra active'
 # locationGranularity is used to set the discrete simulation scale, where 10**granularity is the 1D volume. 2 is ideal
 # initialLocationBias can be used to bias the initial location of the agent within the environment. Uniformly random
@@ -52,6 +53,7 @@ class agent:
         self.cleanlinessBias = cleanlinessBias
         self.socialDistanceBias = socialDistanceBias
         self.travelerBias = travelerBias
+        self.travelerBiasO = travelerBias
         self.locationGranularity = locationGranularity
         self.initialLocationBias = initialLocationBias
 
@@ -169,6 +171,9 @@ class agent:
                 # Symptomatic
                 else:
 
+                    # If symptomatic, reduce movement during recovery
+                    self.travelerBias = .5
+
                     # Count down until infection is healed
                     self.infectionTimer -= 1
 
@@ -181,6 +186,7 @@ class agent:
                         # Reset timers, to be used in the future
                         self.infectionTimer = self.infectionTime
                         self.asymptomaticTimer = self.asymptomaticTime
+                        self.travelerBias = self.travelerBiasO
 
                     # If not healed yet
                     else:

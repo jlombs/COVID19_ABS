@@ -4,10 +4,23 @@ from ABClasses import agent, environment
 from matplotlib import pyplot as plt
 import numpy as np
 
+# User Interface
+##########################################
+# Establish the population: see the ABClasses.py documentation for details
+populationSize = 250  # Must be >= 10, expect slowdowns for large social distancing on large populations
+population = [agent(ageBias=-1, cleanlinessBias=0*.5*np.random.rand(), travelerBias=1.0+2.5*np.random.rand(), socialDistanceBias=0+0*np.random.rand()) for _ in range(populationSize)]
+
+# Establish the simulation environment: see the ABClasses.py documentation for details
+landscape = environment(AOE=5, attenuation=.4)
+
+# Logical to show or hide the viral load in the dynamical plots (will increase computation time in the plotting)
+showTrails = True
+##########################################
+
 
 # Method to help with plotting the simulation frames
 # Population is a list of agent objects
-# Landscape is an environemnt object
+# Landscape is an environment object
 # statsStorage is a list of tuples, where each element is the triple (#healty, #infected, #dead)
 # ax is the axis handle
 # showTrails is a logical to plot the viral environment, will increase computation / draw time
@@ -60,27 +73,23 @@ def populationPlotter(population, landscape, statsStorage, ax, showTrails=False)
     ax[0].set_title('Infection Statistics')
 
 
-# Establish the population: see the ABClasses.py documentation for details
-populationSize = 1000  # Must be >= 10, expect slowdowns for large social distancing on large populations
-population = [agent(cleanlinessBias=0, travelerBias=1, socialDistanceBias=0) for _ in range(populationSize)]
-
 # Seed the infection randomly in the population
 patient0 = np.random.randint(0, populationSize)
 population[patient0].infected = True
+population[patient0].cleanlinessBias = 0
+population[patient0].location = np.array([.5, .5])
 numInfected = 1
 numDead = 0
 
 # Initialize the population outcome statistics list of tuples
 statsStorage = [(populationSize-numInfected-numDead, numInfected, numDead)]
 
-# Establish the environment and update it with the population
-landscape = environment(AOE=10, attenuation=.9)
+# Update environment with the population
 landscape.update(population)
 
 # Establish the dynamical plots and perform the first plot
 plt.ion()
 fig, ax = plt.subplots(2, 1)
-showTrails = False  # Shows the viral load in the environment
 populationPlotter(population, landscape, statsStorage, ax, showTrails=showTrails)
 plt.show()
 plt.pause(.05)
