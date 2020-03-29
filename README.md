@@ -1,5 +1,5 @@
-# COVID19
-A Python3 agent-based simulator for the 2019 novel coronavirus
+# COVID19_ABS
+A Python3 Agent-Based Simulator for the 2019 novel coronavirus
 
 ## Introduction
 This simple simulator is used to illustrate the effects of various social behaviors on the spread and impact of COVID19. 
