@@ -8,7 +8,19 @@ import numpy as np
 ##########################################
 # Establish the population: see the ABClasses.py documentation for details
 populationSize = 250  # Must be >= 10, expect slowdowns for large social distancing on large populations
-population = [agent(ageBias=-1, cleanlinessBias=0*.5*np.random.rand(), travelerBias=1.0+2.5*np.random.rand(), socialDistanceBias=0+0*np.random.rand()) for _ in range(populationSize)]
+population = [agent(ageBias=-1, cleanlinessBias=.2*.5*np.random.rand(), travelerBias=1.0+2.5*np.random.rand(), socialDistanceBias=.2+0*np.random.rand()) for _ in range(populationSize)]
+
+# Example of strong virus spread with no actions taken
+# populationSize = 250
+# population = [agent(ageBias=-1, cleanlinessBias=0*.5*np.random.rand(), travelerBias=2.0+2.5*np.random.rand(), socialDistanceBias=0+0*np.random.rand()) for _ in range(populationSize)]
+
+# Example of good social distancing
+# populationSize = 250
+# population = [agent(ageBias=-1, cleanlinessBias=0*.5*np.random.rand(), travelerBias=.0+2.5*np.random.rand(), socialDistanceBias=1+0*np.random.rand()) for _ in range(populationSize)]
+
+# Example of cleanliness even in the face of higher travel propensity
+# populationSize = 250
+# population = [agent(ageBias=-1, cleanlinessBias=1*.5*np.random.rand(), travelerBias=1.0+2.5*np.random.rand(), socialDistanceBias=.5+0*np.random.rand()) for _ in range(populationSize)]
 
 # Establish the simulation environment: see the ABClasses.py documentation for details
 landscape = environment(AOE=5, attenuation=.4)

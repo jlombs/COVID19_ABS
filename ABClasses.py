@@ -149,7 +149,7 @@ class agent:
             self.location = testLocations[bestLocation].copy()
 
             # If no immunity and not currently infected, get a chance to become infected
-            # Note, immunity loss or reinfection is not coded atm, but will come soon
+            # Note, immunity loss or reinfection is not coded atm, but will come soon as new COVID data is understood
             if not self.infected and not self.protected:
 
                 # Environmental infection
@@ -238,7 +238,7 @@ class agent:
 # An environment class to house the infection landscape
 # locationGranularity is used to set the discrete simulation scale, where 10**granularity is the 1D volume
 # attenuation in [0, 1] gives the multiplicative rate against which the virus decays in the wild. Each day, undisturbed
-#     environmental virus rates are multiplied by attenuation. Maximum load is 1, therefore after 3 days, the load is
+#     environmental virus rates are multiplied by attenuation. Maximum load is 1; therefore after 3 days, the load is
 #     .4**3 = .06 under the defaults.
 #     https://www.cnbc.com/2020/03/18/coronavirus-lives-for-hours-in-air-particles-and-days-on-surfaces-new-us-study-shows.html
 # AOE in [1, n] is the area of effect default for how far one agent spreads the virus around them.
